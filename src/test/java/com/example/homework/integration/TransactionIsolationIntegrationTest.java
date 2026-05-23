@@ -1,5 +1,6 @@
 package com.example.homework.integration;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TransactionIsolationIntegrationTest extends AbstractPostgresIntegrationTest {
 
     @Test
+    @Tag("regression")
     void shouldStartWithEmptyDatabaseInEachTest() throws Exception {
         assertEquals(0, userRepository.count());
 
@@ -16,6 +18,7 @@ class TransactionIsolationIntegrationTest extends AbstractPostgresIntegrationTes
     }
 
     @Test
+    @Tag("regression")
     void shouldAlsoStartWithEmptyDatabaseInAnotherTest() throws Exception {
         assertEquals(0, userRepository.count());
         assertEquals(0, notificationEventRepository.count());

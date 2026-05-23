@@ -4,6 +4,7 @@ import com.example.homework.fixtures.UserFixture;
 import com.example.homework.model.NotificationEvent;
 import com.example.homework.model.User;
 import com.example.homework.repository.UserRepository;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class HomeworkTasksTest extends AbstractPostgresIntegrationTest {
 
     @Test
+    @Tag("smoke")
     void shouldFindUserByEmailAfterSavingThroughRepository() throws Exception {
         // arrange
         User user = userRepository.save(UserFixture.defaultActiveUser());
@@ -30,6 +32,7 @@ class HomeworkTasksTest extends AbstractPostgresIntegrationTest {
     }
 
     @Test
+    @Tag("regression")
     void shouldNotReturnInactiveUserInFindActiveUsers() throws Exception {
         // arrange
         userRepository.save(UserFixture.defaultActiveUser());
@@ -44,6 +47,7 @@ class HomeworkTasksTest extends AbstractPostgresIntegrationTest {
     }
 
     @Test
+    @Tag("smoke")
     void shouldCreateNotificationEventOnRegistration() throws Exception {
         // arrange + act
         User user = userRegistrationService.register("carol@example.com", "Carol Smith");
@@ -57,6 +61,7 @@ class HomeworkTasksTest extends AbstractPostgresIntegrationTest {
     }
 
     @Test
+    @Tag("regression")
     void shouldRollbackChangesBetweenTests() throws Exception {
         userRepository.save(UserFixture.defaultActiveUser());
 
@@ -64,12 +69,14 @@ class HomeworkTasksTest extends AbstractPostgresIntegrationTest {
     }
 
     @Test
+    @Tag("regression")
     void shouldStartFromCleanStateInAnotherTest() throws Exception {
         assertEquals(0, userRepository.count());
         assertEquals(0, notificationEventRepository.count());
     }
 
     @Test
+    @Tag("e2e")
     void shouldDemonstrateThatCommitInsideCodeBreaksRollbackIsolation() throws Exception {
         userRegistrationService.registerAndCommitInsideService("eve@example.com", "Eve Green", connection);
         connection.rollback();
